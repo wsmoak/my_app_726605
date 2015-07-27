@@ -1,8 +1,5 @@
 # MyApp_726605
 
-To start your new Phoenix application:
+Adding Fields to an Ecto Model in Phoenix
 
-1. Install dependencies with `mix deps.get`
-2. Start Phoenix endpoint with `mix phoenix.server`
-
-Now you can visit `localhost:4000` from your browser.
+See: http://wsmoak.net/2015/07/27/adding-fields-to-an-ecto-model-in-phoenix.html
