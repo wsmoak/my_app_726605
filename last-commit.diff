@@ -1,0 +1,70 @@
+diff --git a/web/controllers/page_controller.ex b/web/controllers/page_controller.ex
+index 20936b1..0c42906 100644
+--- a/web/controllers/page_controller.ex
++++ b/web/controllers/page_controller.ex
+@@ -1,7 +1,25 @@
+ defmodule MyApp_726605.PageController do
+   use MyApp_726605.Web, :controller
+ 
++  alias MyApp_726605.User
++
++  def index(conn, %{"test" => _}) do
++    IO.puts "MADE IT HERE!!!!************************"
++    changeset = User.changeset(%User{},
++      %{name: "Amy Smith",
++        email: "amy@example.com",
++        user_id: "ABC123",
++        access_token: "fjlsfj2l34h2lh2l432lj",
++        refresh_token: "l4l2k34h2l234k2h97sf",
++        access_token_expires_at: {{2015, 12, 31}, {12, 00, 00}}
++      })
++    Repo.insert!(changeset)
++
++    render conn, "index.html"
++  end
++
+   def index(conn, _params) do
+     render conn, "index.html"
+   end
++
+ end
+diff --git a/web/models/user.ex b/web/models/user.ex
+index a2291c7..690c6e9 100644
+--- a/web/models/user.ex
++++ b/web/models/user.ex
+@@ -4,12 +4,16 @@ defmodule MyApp_726605.User do
+   schema "users" do
+     field :name, :string
+     field :email, :string
++    field :user_id, :string
++    field :access_token, :binary
++    field :access_token_expires_at, Ecto.DateTime
++    field :refresh_token, :binary
+ 
+     timestamps
+   end
+ 
+-  @required_fields ~w(name email)
+-  @optional_fields ~w()
++ @required_fields ~w()
++ @optional_fields ~w(name email user_id access_token access_token_expires_at refresh_token)
+ 
+   @doc """
+   Creates a changeset based on the `model` and `params`.
+diff --git a/web/templates/user/show.html.eex b/web/templates/user/show.html.eex
+index 7c04843..b22d3d5 100644
+--- a/web/templates/user/show.html.eex
++++ b/web/templates/user/show.html.eex
+@@ -12,6 +12,12 @@
+     <%= @user.email %>
+   </li>
+ 
++  <li>
++    <strong>User ID:</strong>
++    <%= @user.user_id %>
++  </li>
++
++
+ </ul>
+ 
+ <%= link "Back", to: user_path(@conn, :index) %>
